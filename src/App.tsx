@@ -5,12 +5,9 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Text } from 'react-native';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,21 +21,24 @@ function App() {
 }
 
 function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
   return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
+    <View style={styles.box}>
+      <Text style={styles.text}>Привет</Text>
+      <Text>Это мой первый экран</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  box: {
     flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 24,
   },
 });
 
