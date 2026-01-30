@@ -5,16 +5,16 @@
  * @format
  */
 
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Text } from 'react-native';
+import { StatusBar, StyleSheet, useColorScheme, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Text } from "react-native";
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === "dark";
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
       <AppContent />
     </SafeAreaProvider>
   );
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 10,
     paddingBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     fontSize: 24,

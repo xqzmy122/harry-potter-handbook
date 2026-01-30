@@ -1,17 +1,17 @@
 module.exports = {
   root: true,
-  extends: '@react-native',
+  extends: "@react-native",
   overrides: [
     {
-      files: ['babel.config.js'],
+      files: ["babel.config.js"],
       env: { node: true },
-      parserOptions: { sourceType: 'script' },
+      parserOptions: { sourceType: "script" },
     },
   ],
-  parser: '@babel/eslint-parser',
+  parser: "@babel/eslint-parser",
   parserOptions: {
     requireConfigFile: false,
     ecmaVersion: 2018,
-    sourceType: 'module',
+    sourceType: "module",
   },
 };
