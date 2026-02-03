@@ -1,15 +1,49 @@
-import { Button } from "@react-navigation/elements";
-import { useNavigation } from "@react-navigation/native";
-import { Text, View } from "react-native";
-import { PotionsScreenNavigationProp } from "../../navigation/types";
+import { View, FlatList, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { useFetch } from "../../services/api/useFetch";
+import { ICard } from "../../types/types";
+import { getAllSpells } from "../../services/api/spells.service";
+import { Card } from "../../components/Card";
+import { mapSpellToCard } from "../../helpers/mappers";
+import { Loader } from "../../components/Loader";
 
 export function SpellsScreen() {
-  const navigation = useNavigation<PotionsScreenNavigationProp>();
+  const { status, data, execute } = useFetch<ICard>(async () => {
+    const spells = await getAllSpells();
+    return spells.map(mapSpellToCard);
+  });
+
+  useEffect(() => {
+    execute();
+  }, []);
+
+  if (status === "loading") {
+    return <Loader text="Loading your magic..." />;
+  }
 
   return (
-    <View>
-      <Text>Spells will be here</Text>
-      <Button onPress={() => navigation.navigate("Potions")}>Go to potions</Button>
+    <View style={styles.container}>
+      <FlatList
+        data={data}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => <Card data={item} />}
+        contentContainerStyle={styles.spellsList}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  spellsList: {
+    padding: 10,
+  },
+  loader: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
+  container: {
+    justifyContent: "center",
+    flex: 1,
+  },
+});

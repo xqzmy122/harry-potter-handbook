@@ -7,7 +7,7 @@
 
 import { StatusBar, useColorScheme } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Navigation } from "./navigation/Navigator";
+import { Navigation } from "./navigation/Navigation";
 
 function App() {
   const isDarkMode = useColorScheme() === "dark";
