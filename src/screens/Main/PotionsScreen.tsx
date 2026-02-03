@@ -15,7 +15,7 @@ export function PotionsScreen() {
 
   useEffect(() => {
     execute();
-  }, []);
+  }, [execute]);
 
   if (status === "loading") {
     return <Loader text="Loading your magic..." />;

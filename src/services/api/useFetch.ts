@@ -13,8 +13,8 @@ export const useFetch = <T>(request: () => Promise<T[]>) => {
       const result = await request();
       setData(result);
       setStatus("success");
-    } catch (error) {
-      error instanceof Error && setError(error.message);
+    } catch (err) {
+      err instanceof Error && setError(err.message);
       setStatus("error");
     }
   }, [request]);

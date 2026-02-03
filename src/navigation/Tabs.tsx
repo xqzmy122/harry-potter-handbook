@@ -6,18 +6,22 @@ import PotionIcon from "../assets/potion.svg";
 
 const Tab = createBottomTabNavigator();
 
+function SpellTabIcon() {
+  return <SpellIcon />;
+}
+
+function PotionTabIcon() {
+  return <PotionIcon />;
+}
+
 export function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen
-        name="Spells"
-        component={SpellsScreen}
-        options={{ tabBarIcon: () => <SpellIcon /> }}
-      />
+      <Tab.Screen name="Spells" component={SpellsScreen} options={{ tabBarIcon: SpellTabIcon }} />
       <Tab.Screen
         name="Potions"
         component={PotionsScreen}
-        options={{ tabBarIcon: () => <PotionIcon /> }}
+        options={{ tabBarIcon: PotionTabIcon }}
       />
     </Tab.Navigator>
   );

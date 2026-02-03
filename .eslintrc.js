@@ -5,13 +5,27 @@ module.exports = {
     {
       files: ["babel.config.js"],
       env: { node: true },
-      parserOptions: { sourceType: "script" },
+      parser: "@babel/eslint-parser",
+      parserOptions: { sourceType: "script", requireConfigFile: false },
+    },
+    {
+      files: ["*.ts", "*.tsx"],
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: "module",
+        ecmaFeatures: { jsx: true },
+      },
+      rules: {
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            argsIgnorePattern: "^_",
+            destructuredArrayIgnorePattern: "^_",
+            varsIgnorePattern: "^_",
+          },
+        ],
+      },
     },
   ],
-  parser: "@babel/eslint-parser",
-  parserOptions: {
-    requireConfigFile: false,
-    ecmaVersion: 2018,
-    sourceType: "module",
-  },
 };
