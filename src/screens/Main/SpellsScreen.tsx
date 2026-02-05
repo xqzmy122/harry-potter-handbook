@@ -1,13 +1,13 @@
 import { View, FlatList, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
-import { useFetch } from "../../services/api/useFetch";
-import { ICard } from "../../types/types";
-import { getAllSpells } from "../../services/api/spells.service";
-import { Card } from "../../components/Card";
-import { mapSpellToCard } from "../../helpers/mappers";
-import { Loader } from "../../components/Loader";
-import { Search } from "../../components/Search.tsx";
-import { useDebounce } from "../../hooks/useDebounce.tsx";
+import { useFetch } from "@services/api/useFetch";
+import { ICard } from "@/types/types";
+import { getAllSpells } from "@services/api/spells.service";
+import { Card } from "@components/Card";
+import { mapSpellToCard } from "@helpers/mappers";
+import { Loader } from "@components/Loader";
+import { Search } from "@components/Search.tsx";
+import { useDebounce } from "@hooks/useDebounce.tsx";
 
 export function SpellsScreen() {
   const { status, data, execute } = useFetch<ICard>(async () => {

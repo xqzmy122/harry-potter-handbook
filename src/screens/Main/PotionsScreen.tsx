@@ -1,12 +1,12 @@
-import { View, FlatList, StyleSheet, Button } from "react-native";
 import { useEffect, useState } from "react";
-import { useFetch } from "../../services/api/useFetch";
-import { ICard } from "../../types/types";
-import { getAllPotions } from "../../services/api/potions.service";
-import { Card } from "../../components/Card";
-import { mapPotionToCard } from "../../helpers/mappers";
-import { Loader } from "../../components/Loader.tsx";
-import { FilterDropdown } from "../../components/FilterDropdown.tsx";
+import { View, FlatList, StyleSheet, Button } from "react-native";
+import { useFetch } from "@services/api/useFetch";
+import { ICard } from "@/types/types";
+import { getAllPotions } from "@services/api/potions.service";
+import { Card } from "@components/Card.tsx";
+import { mapPotionToCard } from "@/helpers/mappers";
+import { Loader } from "@components/Loader.tsx";
+import { FilterDropdown } from "@components/FilterDropdown.tsx";
 
 export function PotionsScreen() {
   const [selected, setSelected] = useState<string>("");

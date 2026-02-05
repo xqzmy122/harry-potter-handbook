@@ -1,5 +1,5 @@
 import { Image, Pressable, View, Text, StyleSheet } from "react-native";
-import { ICardProp } from "../types/types";
+import { ICardProp } from "@/types/types";
 
 export function Card({ data }: ICardProp) {
   return (
