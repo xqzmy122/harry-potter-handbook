@@ -6,9 +6,8 @@ import { ActivityIndicator } from "react-native";
 export function Loader({ text }: { text: string }) {
   return (
     <View style={styles.loader}>
-      <ActivityIndicator size="large">
-        <Text>{text}</Text>
-      </ActivityIndicator>
+      <ActivityIndicator size="large" />
+      <Text>{text}</Text>
     </View>
   );
 }
