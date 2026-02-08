@@ -1,21 +1,17 @@
 import { View, FlatList, StyleSheet } from "react-native";
-import { useEffect, useState, useRef } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useFetch } from "@services/api/useFetch";
 import { ICard } from "@/types/types";
-import { Card } from "@components/Card";
+import { DetailCardItem } from "@components/DetailCardItem";
 import { mapSpellToCard } from "@helpers/mappers";
 import { Loader } from "@components/Loader";
 import { Search } from "@components/Search";
 import { useDebounce } from "@hooks/useDebounce";
 import { getSpellsByPage } from "@services/api/spells.service";
-import { RootStackParamList } from "@navigation/types";
 import { useTheme } from "@/theme/ThemeContext";
 
 export function SpellsScreen() {
   const { theme } = useTheme();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { status, data, execute } = useFetch<ICard>(async () => {
     const spells = await getSpellsByPage(page, debouncedSearch);
     return spells.map(mapSpellToCard);
@@ -43,9 +39,10 @@ export function SpellsScreen() {
     setPage(prev => prev + 1);
   }
 
-  const loader = () => {
-    return status === "loading" ? <Loader text="Loading more spells..." /> : null;
-  };
+  const listFooter = useMemo(
+    () => (status === "loading" ? <Loader text="Loading more spells..." /> : null),
+    [status],
+  );
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -55,13 +52,8 @@ export function SpellsScreen() {
           item.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
         )}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <Card
-            data={item}
-            onPress={() => navigation.navigate("Detail", { type: "spell", id: item.id })}
-          />
-        )}
-        ListFooterComponent={loader}
+        renderItem={({ item }) => <DetailCardItem item={item} type="spell" />}
+        ListFooterComponent={listFooter}
         contentContainerStyle={styles.list}
         onEndReachedThreshold={0.5}
         onEndReached={handleLoadMore}

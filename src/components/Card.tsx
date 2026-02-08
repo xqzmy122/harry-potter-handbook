@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Image, Pressable, View, Text, StyleSheet } from "react-native";
 import { ICardProp } from "@/types/types";
 import { useTheme } from "@/theme/ThemeContext";
@@ -6,7 +7,7 @@ interface CardProps extends ICardProp {
   onPress?: () => void;
 }
 
-export function Card({ data, onPress }: CardProps) {
+function CardComponent({ data, onPress }: CardProps) {
   const { theme } = useTheme();
 
   return (
@@ -33,6 +34,8 @@ export function Card({ data, onPress }: CardProps) {
     </Pressable>
   );
 }
+
+export const Card = memo(CardComponent);
 
 const styles = StyleSheet.create({
   card: {

@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { memo, Dispatch, SetStateAction } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { useTheme } from "@/theme/ThemeContext";
 
-export function Search({
+function SearchComponent({
   value,
   onChange,
 }: {
@@ -23,6 +23,8 @@ export function Search({
     </View>
   );
 }
+
+export const Search = memo(SearchComponent);
 
 const styles = StyleSheet.create({
   container: {
