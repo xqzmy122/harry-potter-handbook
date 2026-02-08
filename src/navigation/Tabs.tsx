@@ -3,7 +3,7 @@ import { SpellsScreen } from "@screens/Main/SpellsScreen";
 import { PotionsScreen } from "@screens/Main/PotionsScreen";
 import SpellIcon from "@assets/spell.svg";
 import PotionIcon from "@assets/potion.svg";
-import { colors } from "@/theme/colors";
+import { useTheme } from "@/theme/ThemeContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,14 +16,16 @@ function PotionTabIcon({ color }: { color: string }) {
 }
 
 export function MyTabs() {
+  const { theme } = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: colors.accent,
-        tabBarInactiveTintColor: colors.textMuted,
+        tabBarActiveTintColor: theme.accent,
+        tabBarInactiveTintColor: theme.textMuted,
         tabBarStyle: {
-          backgroundColor: colors.surface,
-          borderTopColor: colors.border,
+          backgroundColor: theme.surface,
+          borderTopColor: theme.border,
         },
       }}
     >
@@ -31,14 +33,14 @@ export function MyTabs() {
         name="Spells"
         component={SpellsScreen}
         options={{
-          tabBarIcon: ({ color }) => <SpellTabIcon color={color} />,
+          tabBarIcon: SpellTabIcon,
         }}
       />
       <Tab.Screen
         name="Potions"
         component={PotionsScreen}
         options={{
-          tabBarIcon: ({ color }) => <PotionTabIcon color={color} />,
+          tabBarIcon: PotionTabIcon,
         }}
       />
     </Tab.Navigator>

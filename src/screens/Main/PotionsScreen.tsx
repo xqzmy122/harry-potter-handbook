@@ -10,9 +10,10 @@ import { mapPotionToCard } from "@/helpers/mappers";
 import { Loader } from "@components/Loader";
 import { FilterDropdown } from "@components/FilterDropdown";
 import { RootStackParamList } from "@navigation/types";
-import { colors } from "@/theme/colors";
+import { useTheme } from "@/theme/ThemeContext";
 
 export function PotionsScreen() {
+  const { theme } = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [selected, setSelected] = useState<string>("");
   const [page, setPage] = useState<number>(1);
@@ -35,8 +36,13 @@ export function PotionsScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.filtersRow}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <View
+        style={[
+          styles.filtersRow,
+          { backgroundColor: theme.surface, borderBottomColor: theme.border },
+        ]}
+      >
         <FilterDropdown
           options={[
             "Beginner",
@@ -50,11 +56,8 @@ export function PotionsScreen() {
           selected={selected}
           onSelect={setSelected}
         />
-        <Pressable
-          style={styles.resetButton}
-          onPress={() => setSelected("")}
-        >
-          <Text style={styles.resetText}>Reset</Text>
+        <Pressable style={styles.resetButton} onPress={() => setSelected("")}>
+          <Text style={[styles.resetText, { color: theme.accent }]}>Reset</Text>
         </Pressable>
       </View>
       <FlatList
@@ -78,7 +81,6 @@ export function PotionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   filtersRow: {
     flexDirection: "row",
@@ -86,9 +88,7 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
   },
   resetButton: {
     paddingVertical: 8,
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
   },
   resetText: {
     fontSize: 14,
-    color: colors.accent,
     fontWeight: "500",
   },
   list: {

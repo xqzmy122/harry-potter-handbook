@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { colors } from "@/theme/colors";
+import { useTheme } from "@/theme/ThemeContext";
 
 export function Loader({ text }: { text: string }) {
+  const { theme } = useTheme();
+
   return (
     <View style={styles.loader}>
-      <ActivityIndicator size="large" color={colors.accent} />
-      <Text style={styles.text}>{text}</Text>
+      <ActivityIndicator size="large" color={theme.accent} />
+      <Text style={[styles.text, { color: theme.textSecondary }]}>{text}</Text>
     </View>
   );
 }
@@ -20,6 +22,5 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 12,
     fontSize: 14,
-    color: colors.textSecondary,
   },
 });

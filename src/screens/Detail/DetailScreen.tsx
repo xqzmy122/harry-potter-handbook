@@ -2,35 +2,50 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import { Loader } from "@components/Loader";
-import { colors } from "@/theme/colors";
+import { useTheme } from "@/theme/ThemeContext";
+import { ThemeColors } from "@/theme/colors";
 import { detailConfigs, DetailDisplayData, DetailType } from "@/config/detailConfig";
 
 type DetailParams = {
   Detail: { type: DetailType; id: string };
 };
 
-function DetailRow({ label, value }: { label: string; value: string | null }) {
+function DetailRow({
+  label,
+  value,
+  theme,
+}: {
+  label: string;
+  value: string | null;
+  theme: ThemeColors;
+}) {
   if (!value) return null;
   return (
-    <View style={styles.row}>
-      <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value}>{value}</Text>
+    <View style={[styles.row, { borderBottomColor: theme.border }]}>
+      <Text style={[styles.label, { color: theme.textMuted }]}>{label}</Text>
+      <Text style={[styles.value, { color: theme.text }]}>{value}</Text>
     </View>
   );
 }
 
-function DetailContent({ name, image, fields }: DetailDisplayData) {
+function DetailContent({ name, image, fields, theme }: DetailDisplayData & { theme: ThemeColors }) {
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: theme.background }]}
+      contentContainerStyle={styles.content}
+    >
       {image ? (
-        <Image source={{ uri: image }} style={styles.image} />
+        <Image source={{ uri: image }} style={[styles.image, { backgroundColor: theme.border }]} />
       ) : (
-        <Image source={require("@assets/unknown-spell.png")} style={styles.image} />
+        <Image
+          source={require("@assets/unknown-spell.png")}
+          style={[styles.image, { backgroundColor: theme.border }]}
+        />
       )}
-      <Text style={styles.name}>{name}</Text>
-      <View style={styles.section}>
+      <Text style={[styles.name, { color: theme.text }]}>{name}</Text>
+      <View style={[styles.section, { backgroundColor: theme.surface }]}>
         {fields.map(({ label, value }) => (
-          <DetailRow key={label} label={label} value={value} />
+          <DetailRow key={label} label={label} value={value} theme={theme} />
         ))}
       </View>
     </ScrollView>
@@ -38,6 +53,7 @@ function DetailContent({ name, image, fields }: DetailDisplayData) {
 }
 
 export function DetailScreen() {
+  const { theme } = useTheme();
   const route = useRoute<RouteProp<DetailParams, "Detail">>();
   const navigation = useNavigation();
   const { type, id } = route.params;
@@ -51,10 +67,10 @@ export function DetailScreen() {
       headerBackTitle: "Back",
       headerTitle: "",
       headerShadowVisible: false,
-      headerStyle: { backgroundColor: colors.surface },
-      headerTintColor: colors.text,
+      headerStyle: { backgroundColor: theme.surface },
+      headerTintColor: theme.text,
     });
-  }, [navigation]);
+  }, [navigation, theme]);
 
   useEffect(() => {
     async function load() {
@@ -77,19 +93,18 @@ export function DetailScreen() {
 
   if (status === "error" || !displayData) {
     return (
-      <View style={styles.center}>
-        <Text style={styles.errorText}>Failed to load details</Text>
+      <View style={[styles.center, { backgroundColor: theme.background }]}>
+        <Text style={[styles.errorText, { color: theme.textMuted }]}>Failed to load details</Text>
       </View>
     );
   }
 
-  return <DetailContent {...displayData} />;
+  return <DetailContent {...displayData} theme={theme} />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   content: {
     padding: 20,
@@ -99,7 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.background,
   },
   image: {
     width: 140,
@@ -107,17 +121,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignSelf: "center",
     marginBottom: 16,
-    backgroundColor: colors.border,
   },
   name: {
     fontSize: 24,
     fontWeight: "700",
-    color: colors.text,
     textAlign: "center",
     marginBottom: 24,
   },
   section: {
-    backgroundColor: colors.surface,
     borderRadius: 12,
     padding: 16,
     gap: 12,
@@ -125,23 +136,19 @@ const styles = StyleSheet.create({
   row: {
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
   },
   label: {
     fontSize: 12,
     fontWeight: "600",
-    color: colors.textMuted,
     textTransform: "uppercase",
     letterSpacing: 0.5,
     marginBottom: 4,
   },
   value: {
     fontSize: 15,
-    color: colors.text,
     lineHeight: 22,
   },
   errorText: {
     fontSize: 16,
-    color: colors.textMuted,
   },
 });
