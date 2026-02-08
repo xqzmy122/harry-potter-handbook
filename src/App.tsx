@@ -15,7 +15,6 @@ import { ErrorFallback } from "@components/ErrorFallback";
 import { OfflineGate } from "@components/OfflineGate";
 import BootSplash from "react-native-bootsplash";
 import { useEffect } from "react";
-import Config from "react-native-config";
 
 function AppContent() {
   const { isDark } = useTheme();
