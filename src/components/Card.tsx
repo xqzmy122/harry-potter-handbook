@@ -1,5 +1,6 @@
 import { Image, Pressable, View, Text, StyleSheet } from "react-native";
 import { ICardProp } from "@/types/types";
+import { colors } from "@/theme/colors";
 
 interface CardProps extends ICardProp {
   onPress?: () => void;
@@ -8,14 +9,18 @@ interface CardProps extends ICardProp {
 export function Card({ data, onPress }: CardProps) {
   return (
     <Pressable style={styles.card} onPress={onPress}>
-      <View style={styles.body}>
-        {data.image ? (
-          <Image source={{ uri: data.image }} style={styles.image} />
-        ) : (
-          <Image source={require("../assets/unknown-spell.png")} style={styles.image} />
-        )}
-        <Text style={styles.title}>{data.title}</Text>
-        <Text style={styles.subtitle}>{data.subtitle}</Text>
+      {data.image ? (
+        <Image source={{ uri: data.image }} style={styles.image} />
+      ) : (
+        <Image source={require("../assets/unknown-spell.png")} style={styles.image} />
+      )}
+      <View style={styles.content}>
+        <Text style={styles.title} numberOfLines={1}>
+          {data.title}
+        </Text>
+        <Text style={styles.subtitle} numberOfLines={1}>
+          {data.subtitle}
+        </Text>
       </View>
     </Pressable>
   );
@@ -23,27 +28,33 @@ export function Card({ data, onPress }: CardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#ffffff",
-    marginBottom: 10,
-    width: "80%",
-    alignSelf: "center",
-  },
-  body: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: colors.surface,
+    marginHorizontal: 16,
+    marginBottom: 8,
+    padding: 12,
+    borderRadius: 12,
+  },
+  image: {
+    width: 56,
+    height: 56,
+    borderRadius: 8,
+    backgroundColor: colors.background,
+  },
+  content: {
+    flex: 1,
+    marginLeft: 12,
+    minWidth: 0,
   },
   title: {
-    fontWeight: "bold",
     fontSize: 16,
-    textAlign: "center",
+    fontWeight: "600",
+    color: colors.text,
   },
   subtitle: {
     fontSize: 14,
-    textAlign: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
+    color: colors.textSecondary,
+    marginTop: 2,
   },
 });

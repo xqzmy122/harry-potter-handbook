@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { colors } from "@/theme/colors";
 
 export function FilterDropdown({
   options,
@@ -57,32 +58,32 @@ export function FilterDropdown({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 5,
-    minWidth: 120,
+    borderColor: colors.border,
+    borderRadius: 10,
+    minWidth: 140,
   },
   trigger: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     gap: 8,
   },
   triggerText: {
     flex: 1,
     fontSize: 14,
-    color: "#333",
+    color: colors.text,
   },
   chevron: {
     fontSize: 10,
-    color: "gray",
+    color: colors.textMuted,
   },
   dropdown: {
     borderTopWidth: 1,
-    borderTopColor: "gray",
+    borderTopColor: colors.border,
     maxHeight: 200,
   },
   list: {
@@ -91,14 +92,14 @@ const styles = StyleSheet.create({
   },
   option: {
     paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 4,
+    paddingHorizontal: 14,
+    borderRadius: 8,
   },
   optionSelected: {
-    backgroundColor: "#e8e8e8",
+    backgroundColor: colors.background,
   },
   optionText: {
     fontSize: 14,
-    color: "#333",
+    color: colors.text,
   },
 });

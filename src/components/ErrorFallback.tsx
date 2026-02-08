@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FallbackProps } from "react-error-boundary";
+import { colors } from "@/theme/colors";
 
 export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -19,29 +20,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 24,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: colors.background,
   },
   title: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#1a1a1a",
+    color: colors.text,
     marginBottom: 12,
     textAlign: "center",
   },
   message: {
     fontSize: 14,
-    color: "#666",
+    color: colors.textSecondary,
     textAlign: "center",
     marginBottom: 24,
   },
   button: {
-    backgroundColor: "#333",
+    backgroundColor: colors.text,
     paddingHorizontal: 24,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 10,
   },
   buttonText: {
-    color: "#fff",
+    color: colors.surface,
     fontSize: 16,
     fontWeight: "600",
   },

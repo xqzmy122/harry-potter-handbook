@@ -10,11 +10,13 @@ export const useFetch = <T>(request: () => Promise<T[]>) => {
   const requestRef = useRef(request);
   requestRef.current = request;
 
-  const execute = useCallback(async () => {
+  const execute = useCallback(async (replace = false) => {
     try {
       setStatus("loading");
       const result = await requestRef.current();
-      setData(prev => [...(prev || []), ...(result || [])]);
+      setData(prev =>
+        replace ? result || [] : [...(prev || []), ...(result || [])],
+      );
       setStatus("success");
     } catch (err) {
       err instanceof Error && setError(err.message);

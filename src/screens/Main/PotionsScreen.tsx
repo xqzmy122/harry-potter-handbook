@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { View, FlatList, StyleSheet, Button } from "react-native";
+import { View, FlatList, StyleSheet, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFetch } from "@services/api/useFetch";
 import { ICard } from "@/types/types";
 import { getPotionsByPage } from "@services/api/potions.service";
-import { Card } from "@components/Card.tsx";
+import { Card } from "@components/Card";
 import { mapPotionToCard } from "@/helpers/mappers";
-import { Loader } from "@components/Loader.tsx";
-import { FilterDropdown } from "@components/FilterDropdown.tsx";
+import { Loader } from "@components/Loader";
+import { FilterDropdown } from "@components/FilterDropdown";
 import { RootStackParamList } from "@navigation/types";
+import { colors } from "@/theme/colors";
 
 export function PotionsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -35,20 +36,27 @@ export function PotionsScreen() {
 
   return (
     <View style={styles.container}>
-      <FilterDropdown
-        options={[
-          "Beginner",
-          "Begginer to Moderate",
-          "Moderate to Ordinary Wizarding Level",
-          "Ordinary Wizarding Level",
-          "Moderate to Advanced",
-          "Varies",
-          "Advanced",
-        ]}
-        selected={selected}
-        onSelect={setSelected}
-      />
-      <Button title="Reset Filter" onPress={() => setSelected("")} />
+      <View style={styles.filtersRow}>
+        <FilterDropdown
+          options={[
+            "Beginner",
+            "Begginer to Moderate",
+            "Moderate to Ordinary Wizarding Level",
+            "Ordinary Wizarding Level",
+            "Moderate to Advanced",
+            "Varies",
+            "Advanced",
+          ]}
+          selected={selected}
+          onSelect={setSelected}
+        />
+        <Pressable
+          style={styles.resetButton}
+          onPress={() => setSelected("")}
+        >
+          <Text style={styles.resetText}>Reset</Text>
+        </Pressable>
+      </View>
       <FlatList
         data={data?.filter(item => item.subtitle.includes(selected))}
         keyExtractor={item => item.id}
@@ -58,7 +66,7 @@ export function PotionsScreen() {
             onPress={() => navigation.navigate("Detail", { type: "potion", id: item.id })}
           />
         )}
-        contentContainerStyle={styles.spellsList}
+        contentContainerStyle={styles.list}
         ListFooterComponent={loader}
         onEndReachedThreshold={0.5}
         onEndReached={handleLoadMore}
@@ -68,16 +76,30 @@ export function PotionsScreen() {
 }
 
 const styles = StyleSheet.create({
-  spellsList: {
-    padding: 10,
-  },
-  loader: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
   container: {
-    justifyContent: "center",
     flex: 1,
+    backgroundColor: colors.background,
+  },
+  filtersRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  resetButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  resetText: {
+    fontSize: 14,
+    color: colors.accent,
+    fontWeight: "500",
+  },
+  list: {
+    paddingVertical: 12,
   },
 });

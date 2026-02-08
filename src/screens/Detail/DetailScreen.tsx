@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import { Loader } from "@components/Loader";
+import { colors } from "@/theme/colors";
 import { detailConfigs, DetailDisplayData, DetailType } from "@/config/detailConfig";
 
 type DetailParams = {
@@ -50,8 +51,8 @@ export function DetailScreen() {
       headerBackTitle: "Back",
       headerTitle: "",
       headerShadowVisible: false,
-      headerStyle: { backgroundColor: "#f8f8f8" },
-      headerTintColor: "#333",
+      headerStyle: { backgroundColor: colors.surface },
+      headerTintColor: colors.text,
     });
   }, [navigation]);
 
@@ -88,7 +89,7 @@ export function DetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: colors.background,
   },
   content: {
     padding: 20,
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f8f8f8",
+    backgroundColor: colors.background,
   },
   image: {
     width: 140,
@@ -106,17 +107,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignSelf: "center",
     marginBottom: 16,
-    backgroundColor: "#e8e8e8",
+    backgroundColor: colors.border,
   },
   name: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#1a1a1a",
+    color: colors.text,
     textAlign: "center",
     marginBottom: 24,
   },
   section: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderRadius: 12,
     padding: 16,
     gap: 12,
@@ -124,23 +125,23 @@ const styles = StyleSheet.create({
   row: {
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: colors.border,
   },
   label: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#888",
+    color: colors.textMuted,
     textTransform: "uppercase",
     letterSpacing: 0.5,
     marginBottom: 4,
   },
   value: {
     fontSize: 15,
-    color: "#333",
+    color: colors.text,
     lineHeight: 22,
   },
   errorText: {
     fontSize: 16,
-    color: "#888",
+    color: colors.textMuted,
   },
 });

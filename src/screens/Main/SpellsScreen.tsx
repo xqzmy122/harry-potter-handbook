@@ -1,5 +1,5 @@
 import { View, FlatList, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFetch } from "@services/api/useFetch";
@@ -7,10 +7,11 @@ import { ICard } from "@/types/types";
 import { Card } from "@components/Card";
 import { mapSpellToCard } from "@helpers/mappers";
 import { Loader } from "@components/Loader";
-import { Search } from "@components/Search.tsx";
-import { useDebounce } from "@hooks/useDebounce.tsx";
+import { Search } from "@components/Search";
+import { useDebounce } from "@hooks/useDebounce";
 import { getSpellsByPage } from "@services/api/spells.service";
 import { RootStackParamList } from "@navigation/types";
+import { colors } from "@/theme/colors";
 
 export function SpellsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -22,9 +23,19 @@ export function SpellsScreen() {
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const debouncedSearch = useDebounce(search, 300);
+  const lastFetchedSearchRef = useRef(debouncedSearch);
 
   useEffect(() => {
-    execute();
+    if (lastFetchedSearchRef.current !== debouncedSearch) {
+      setPage(1);
+    }
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    const searchChanged = lastFetchedSearchRef.current !== debouncedSearch;
+    if (searchChanged && page !== 1) return;
+    lastFetchedSearchRef.current = debouncedSearch;
+    execute(page === 1);
   }, [execute, debouncedSearch, page]);
 
   function handleLoadMore() {
@@ -50,7 +61,7 @@ export function SpellsScreen() {
           />
         )}
         ListFooterComponent={loader}
-        contentContainerStyle={styles.spellsList}
+        contentContainerStyle={styles.list}
         onEndReachedThreshold={0.5}
         onEndReached={handleLoadMore}
       />
@@ -59,16 +70,11 @@ export function SpellsScreen() {
 }
 
 const styles = StyleSheet.create({
-  spellsList: {
-    padding: 10,
-  },
-  loader: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
   container: {
-    justifyContent: "center",
     flex: 1,
+    backgroundColor: colors.background,
+  },
+  list: {
+    paddingVertical: 12,
   },
 });
