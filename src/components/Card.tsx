@@ -1,9 +1,13 @@
 import { Image, Pressable, View, Text, StyleSheet } from "react-native";
 import { ICardProp } from "@/types/types";
 
-export function Card({ data }: ICardProp) {
+interface CardProps extends ICardProp {
+  onPress?: () => void;
+}
+
+export function Card({ data, onPress }: CardProps) {
   return (
-    <Pressable style={styles.card}>
+    <Pressable style={styles.card} onPress={onPress}>
       <View style={styles.body}>
         {data.image ? (
           <Image source={{ uri: data.image }} style={styles.image} />

@@ -1,8 +1,8 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export type RootStackParamList = {
-  Spells: undefined;
-  Potions: undefined;
+  Tabs: undefined;
+  Detail: { type: "spell" | "potion"; id: string };
 };
 
-export type PotionsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, FlatList, StyleSheet, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFetch } from "@services/api/useFetch";
 import { ICard } from "@/types/types";
 import { getPotionsByPage } from "@services/api/potions.service";
@@ -7,8 +9,10 @@ import { Card } from "@components/Card.tsx";
 import { mapPotionToCard } from "@/helpers/mappers";
 import { Loader } from "@components/Loader.tsx";
 import { FilterDropdown } from "@components/FilterDropdown.tsx";
+import { RootStackParamList } from "@navigation/types";
 
 export function PotionsScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [selected, setSelected] = useState<string>("");
   const [page, setPage] = useState<number>(1);
 
@@ -48,7 +52,12 @@ export function PotionsScreen() {
       <FlatList
         data={data?.filter(item => item.subtitle.includes(selected))}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => <Card data={item} />}
+        renderItem={({ item }) => (
+          <Card
+            data={item}
+            onPress={() => navigation.navigate("Detail", { type: "potion", id: item.id })}
+          />
+        )}
         contentContainerStyle={styles.spellsList}
         ListFooterComponent={loader}
         onEndReachedThreshold={0.5}

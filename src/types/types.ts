@@ -35,6 +35,7 @@ export interface Potion {
   type: "potion";
   attributes: {
     slug: string | null;
+    category: string | null;
     characteristics: string | null;
     difficulty: string | null;
     effect: string | null;

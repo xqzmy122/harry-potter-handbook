@@ -17,3 +17,12 @@ export const getPotionsByPage = async (page: number, search?: string): Promise<P
   });
   return res.data.data;
 };
+
+export const getPotionById = async (id: string): Promise<Potion | null> => {
+  try {
+    const res = await api.get<ApiResponse<Potion>>(`/v1/potions/${id}`);
+    return res.data.data;
+  } catch {
+    return null;
+  }
+};
