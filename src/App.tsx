@@ -13,9 +13,25 @@ import { ThemeProvider, useTheme } from "@/theme/ThemeContext";
 import { Navigation } from "./navigation/Navigation";
 import { ErrorFallback } from "@components/ErrorFallback";
 import { OfflineGate } from "@components/OfflineGate";
+import BootSplash from "react-native-bootsplash";
+import { useEffect } from "react";
+import Config from "react-native-config";
 
 function AppContent() {
   const { isDark } = useTheme();
+
+  useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+    };
+
+    init().finally(async () => {
+      await BootSplash.hide({ fade: true });
+      console.log("BootSplash has been hidden successfully");
+    });
+  }, []);
+
+  console.log(Config.API_URL);
 
   return (
     <>
