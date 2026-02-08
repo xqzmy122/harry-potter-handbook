@@ -14,7 +14,7 @@ export const useFetch = <T>(request: () => Promise<T[]>) => {
     try {
       setStatus("loading");
       const result = await requestRef.current();
-      setData(result);
+      setData(prev => [...(prev || []), ...(result || [])]);
       setStatus("success");
     } catch (err) {
       err instanceof Error && setError(err.message);
