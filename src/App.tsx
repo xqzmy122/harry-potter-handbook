@@ -31,8 +31,6 @@ function AppContent() {
     });
   }, []);
 
-  console.log(Config.API_URL);
-
   return (
     <>
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
