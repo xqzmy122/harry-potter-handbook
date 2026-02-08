@@ -17,3 +17,12 @@ export const getSpellsByPage = async (page: number, search?: string): Promise<Sp
   });
   return res.data.data;
 };
+
+export const getSpellById = async (id: string): Promise<Spell | null> => {
+  try {
+    const res = await api.get<ApiResponse<Spell>>(`/v1/spells/${id}`);
+    return res.data.data;
+  } catch {
+    return null;
+  }
+};

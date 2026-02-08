@@ -1,5 +1,7 @@
 import { View, FlatList, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFetch } from "@services/api/useFetch";
 import { ICard } from "@/types/types";
 import { Card } from "@components/Card";
@@ -8,8 +10,10 @@ import { Loader } from "@components/Loader";
 import { Search } from "@components/Search.tsx";
 import { useDebounce } from "@hooks/useDebounce.tsx";
 import { getSpellsByPage } from "@services/api/spells.service";
+import { RootStackParamList } from "@navigation/types";
 
 export function SpellsScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { status, data, execute } = useFetch<ICard>(async () => {
     const spells = await getSpellsByPage(page, debouncedSearch);
     return spells.map(mapSpellToCard);
@@ -39,7 +43,12 @@ export function SpellsScreen() {
           item.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
         )}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => <Card data={item} />}
+        renderItem={({ item }) => (
+          <Card
+            data={item}
+            onPress={() => navigation.navigate("Detail", { type: "spell", id: item.id })}
+          />
+        )}
         ListFooterComponent={loader}
         contentContainerStyle={styles.spellsList}
         onEndReachedThreshold={0.5}
