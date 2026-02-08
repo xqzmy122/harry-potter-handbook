@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -7,17 +7,20 @@ export const useFetch = <T>(request: () => Promise<T[]>) => {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<T[] | null>(null);
 
+  const requestRef = useRef(request);
+  requestRef.current = request;
+
   const execute = useCallback(async () => {
     try {
       setStatus("loading");
-      const result = await request();
-      setData(result);
+      const result = await requestRef.current();
+      setData(prev => [...(prev || []), ...(result || [])]);
       setStatus("success");
     } catch (err) {
       err instanceof Error && setError(err.message);
       setStatus("error");
     }
-  }, [request]);
+  }, []);
 
   return { execute, data, status, error };
 };

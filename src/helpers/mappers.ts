@@ -1,4 +1,4 @@
-import { ICard, Potion, Spell } from "../types/types";
+import { ICard, Potion, Spell } from "@/types/types";
 
 export const mapSpellToCard = (spell: Spell): ICard => ({
   title: spell.attributes?.name || "Something",

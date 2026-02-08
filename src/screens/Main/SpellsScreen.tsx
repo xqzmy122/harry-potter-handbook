@@ -1,33 +1,49 @@
 import { View, FlatList, StyleSheet } from "react-native";
-import { useEffect } from "react";
-import { useFetch } from "../../services/api/useFetch";
-import { ICard } from "../../types/types";
-import { getAllSpells } from "../../services/api/spells.service";
-import { Card } from "../../components/Card";
-import { mapSpellToCard } from "../../helpers/mappers";
-import { Loader } from "../../components/Loader";
+import { useEffect, useState } from "react";
+import { useFetch } from "@services/api/useFetch";
+import { ICard } from "@/types/types";
+import { Card } from "@components/Card";
+import { mapSpellToCard } from "@helpers/mappers";
+import { Loader } from "@components/Loader";
+import { Search } from "@components/Search.tsx";
+import { useDebounce } from "@hooks/useDebounce.tsx";
+import { getSpellsByPage } from "@services/api/spells.service";
 
 export function SpellsScreen() {
   const { status, data, execute } = useFetch<ICard>(async () => {
-    const spells = await getAllSpells();
+    const spells = await getSpellsByPage(page, debouncedSearch);
     return spells.map(mapSpellToCard);
   });
 
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const debouncedSearch = useDebounce(search, 300);
+
   useEffect(() => {
     execute();
-  }, [execute]);
+  }, [execute, debouncedSearch, page]);
 
-  if (status === "loading") {
-    return <Loader text="Loading your magic..." />;
+  function handleLoadMore() {
+    setPage(prev => prev + 1);
   }
+
+  const loader = () => {
+    return status === "loading" ? <Loader text="Loading more spells..." /> : null;
+  };
 
   return (
     <View style={styles.container}>
+      <Search value={search} onChange={setSearch} />
       <FlatList
-        data={data}
+        data={data?.filter(item =>
+          item.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
+        )}
         keyExtractor={item => item.id}
         renderItem={({ item }) => <Card data={item} />}
+        ListFooterComponent={loader}
         contentContainerStyle={styles.spellsList}
+        onEndReachedThreshold={0.5}
+        onEndReached={handleLoadMore}
       />
     </View>
   );

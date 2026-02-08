@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { SpellsScreen } from "../screens/Main/SpellsScreen";
-import { PotionsScreen } from "../screens/Main/PotionsScreen";
-import SpellIcon from "../assets/spell.svg";
-import PotionIcon from "../assets/potion.svg";
+import { SpellsScreen } from "@screens/Main/SpellsScreen";
+import { PotionsScreen } from "@screens/Main/PotionsScreen";
+import SpellIcon from "@assets/spell.svg";
+import PotionIcon from "@assets/potion.svg";
 
 const Tab = createBottomTabNavigator();
 
