@@ -1,18 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import { Loader } from "@components/Loader";
-import {
-  detailConfigs,
-  DetailDisplayData,
-  DetailType,
-} from "@/config/detailConfig";
+import { detailConfigs, DetailDisplayData, DetailType } from "@/config/detailConfig";
 
 type DetailParams = {
   Detail: { type: DetailType; id: string };
@@ -34,10 +24,7 @@ function DetailContent({ name, image, fields }: DetailDisplayData) {
       {image ? (
         <Image source={{ uri: image }} style={styles.image} />
       ) : (
-        <Image
-          source={require("@assets/unknown-spell.png")}
-          style={styles.image}
-        />
+        <Image source={require("@assets/unknown-spell.png")} style={styles.image} />
       )}
       <Text style={styles.name}>{name}</Text>
       <View style={styles.section}>

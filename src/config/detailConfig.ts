@@ -18,7 +18,7 @@ type DetailConfig<T> = {
 export const detailConfigs: Record<DetailType, DetailConfig<Spell | Potion>> = {
   spell: {
     fetch: getSpellById,
-    mapToDisplay: (data) => {
+    mapToDisplay: data => {
       const a = (data as Spell).attributes;
       return {
         name: a.name ?? "Unknown",
@@ -36,7 +36,7 @@ export const detailConfigs: Record<DetailType, DetailConfig<Spell | Potion>> = {
   },
   potion: {
     fetch: getPotionById,
-    mapToDisplay: (data) => {
+    mapToDisplay: data => {
       const a = (data as Potion).attributes;
       return {
         name: a.name ?? "Unknown",
