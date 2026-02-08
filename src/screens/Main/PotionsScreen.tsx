@@ -1,20 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { View, FlatList, StyleSheet, Pressable, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFetch } from "@services/api/useFetch";
 import { ICard } from "@/types/types";
 import { getPotionsByPage } from "@services/api/potions.service";
-import { Card } from "@components/Card";
+import { DetailCardItem } from "@components/DetailCardItem";
 import { mapPotionToCard } from "@/helpers/mappers";
 import { Loader } from "@components/Loader";
 import { FilterDropdown } from "@components/FilterDropdown";
-import { RootStackParamList } from "@navigation/types";
 import { useTheme } from "@/theme/ThemeContext";
+
+const POTION_DIFFICULTY_OPTIONS = [
+  "Beginner",
+  "Begginer to Moderate",
+  "Moderate to Ordinary Wizarding Level",
+  "Ordinary Wizarding Level",
+  "Moderate to Advanced",
+  "Varies",
+  "Advanced",
+] as const;
 
 export function PotionsScreen() {
   const { theme } = useTheme();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [selected, setSelected] = useState<string>("");
   const [page, setPage] = useState<number>(1);
 
@@ -31,9 +37,10 @@ export function PotionsScreen() {
     setPage(prev => prev + 1);
   }
 
-  const loader = () => {
-    return status === "loading" ? <Loader text="Loading more potions..." /> : null;
-  };
+  const listFooter = useMemo(
+    () => (status === "loading" ? <Loader text="Loading more potions..." /> : null),
+    [status],
+  );
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -44,15 +51,7 @@ export function PotionsScreen() {
         ]}
       >
         <FilterDropdown
-          options={[
-            "Beginner",
-            "Begginer to Moderate",
-            "Moderate to Ordinary Wizarding Level",
-            "Ordinary Wizarding Level",
-            "Moderate to Advanced",
-            "Varies",
-            "Advanced",
-          ]}
+          options={POTION_DIFFICULTY_OPTIONS}
           selected={selected}
           onSelect={setSelected}
         />
@@ -63,14 +62,9 @@ export function PotionsScreen() {
       <FlatList
         data={data?.filter(item => item.subtitle.includes(selected))}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <Card
-            data={item}
-            onPress={() => navigation.navigate("Detail", { type: "potion", id: item.id })}
-          />
-        )}
+        renderItem={({ item }) => <DetailCardItem item={item} type="potion" />}
         contentContainerStyle={styles.list}
-        ListFooterComponent={loader}
+        ListFooterComponent={listFooter}
         onEndReachedThreshold={0.5}
         onEndReached={handleLoadMore}
       />

@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "@/theme/ThemeContext";
 
-export function FilterDropdown({
+function FilterDropdownComponent({
   options,
   selected,
   onSelect,
 }: {
-  options: string[];
+  options: readonly string[];
   selected: string;
   onSelect?: (value: string) => void;
 }) {
@@ -56,6 +56,8 @@ export function FilterDropdown({
     </View>
   );
 }
+
+export const FilterDropdown = memo(FilterDropdownComponent);
 
 const styles = StyleSheet.create({
   container: {
