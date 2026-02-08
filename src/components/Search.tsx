@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { colors } from "@/theme/colors";
+import { useTheme } from "@/theme/ThemeContext";
 
 export function Search({
   value,
@@ -9,14 +9,16 @@ export function Search({
   value: string;
   onChange: Dispatch<SetStateAction<string>>;
 }) {
+  const { theme } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
       <TextInput
         value={value}
         onChangeText={onChange}
         placeholder="Search spells..."
-        placeholderTextColor={colors.textMuted}
-        style={styles.input}
+        placeholderTextColor={theme.textMuted}
+        style={[styles.input, { backgroundColor: theme.background, color: theme.text }]}
       />
     </View>
   );
@@ -26,14 +28,11 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.surface,
   },
   input: {
-    backgroundColor: colors.background,
     borderRadius: 10,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 15,
-    color: colors.text,
   },
 });

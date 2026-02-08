@@ -11,9 +11,10 @@ import { Search } from "@components/Search";
 import { useDebounce } from "@hooks/useDebounce";
 import { getSpellsByPage } from "@services/api/spells.service";
 import { RootStackParamList } from "@navigation/types";
-import { colors } from "@/theme/colors";
+import { useTheme } from "@/theme/ThemeContext";
 
 export function SpellsScreen() {
+  const { theme } = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { status, data, execute } = useFetch<ICard>(async () => {
     const spells = await getSpellsByPage(page, debouncedSearch);
@@ -47,7 +48,7 @@ export function SpellsScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Search value={search} onChange={setSearch} />
       <FlatList
         data={data?.filter(item =>
@@ -72,7 +73,6 @@ export function SpellsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   list: {
     paddingVertical: 12,

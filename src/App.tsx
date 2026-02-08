@@ -5,26 +5,46 @@
  * @format
  */
 
-import { StatusBar, useColorScheme } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ErrorBoundary } from "react-error-boundary";
+import { ThemeProvider, useTheme } from "@/theme/ThemeContext";
 import { Navigation } from "./navigation/Navigation";
 import { ErrorFallback } from "@components/ErrorFallback";
 import { OfflineGate } from "@components/OfflineGate";
 
-function App() {
-  const isDarkMode = useColorScheme() === "dark";
+function AppContent() {
+  const { isDark } = useTheme();
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+    <>
+      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <OfflineGate>
           <Navigation />
         </OfflineGate>
       </ErrorBoundary>
-    </SafeAreaProvider>
+    </>
   );
 }
+
+function App() {
+  return (
+    <GestureHandlerRootView style={styles.container}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;

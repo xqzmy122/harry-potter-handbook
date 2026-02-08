@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import { colors } from "@/theme/colors";
+import { useTheme } from "@/theme/ThemeContext";
 
 export function FilterDropdown({
   options,
@@ -11,6 +11,7 @@ export function FilterDropdown({
   selected: string;
   onSelect?: (value: string) => void;
 }) {
+  const { theme } = useTheme();
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const restOptions = options.length > 1 ? options.slice(1) : [];
@@ -21,29 +22,29 @@ export function FilterDropdown({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.surface, borderColor: theme.border }]}>
       <Pressable
         style={styles.trigger}
         onPress={() => setExpanded(prev => !prev)}
         accessibilityRole="button"
       >
-        <Text style={styles.triggerText} numberOfLines={1}>
+        <Text style={[styles.triggerText, { color: theme.text }]} numberOfLines={1}>
           {selected || "All"}
         </Text>
-        <Text style={styles.chevron}>{expanded ? "▲" : "▼"}</Text>
+        <Text style={[styles.chevron, { color: theme.textMuted }]}>{expanded ? "▲" : "▼"}</Text>
       </Pressable>
 
       {expanded && restOptions.length > 0 && (
-        <View style={styles.dropdown}>
+        <View style={[styles.dropdown, { borderTopColor: theme.border }]}>
           <FlatList
             data={restOptions}
             keyExtractor={item => item}
             renderItem={({ item }) => (
               <Pressable
-                style={[styles.option, selected === item && styles.optionSelected]}
+                style={[styles.option, selected === item && { backgroundColor: theme.background }]}
                 onPress={() => handleSelect(item)}
               >
-                <Text style={styles.optionText} numberOfLines={1}>
+                <Text style={[styles.optionText, { color: theme.text }]} numberOfLines={1}>
                   {item}
                 </Text>
               </Pressable>
@@ -58,9 +59,7 @@ export function FilterDropdown({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: colors.border,
     borderRadius: 10,
     minWidth: 140,
   },
@@ -75,15 +74,12 @@ const styles = StyleSheet.create({
   triggerText: {
     flex: 1,
     fontSize: 14,
-    color: colors.text,
   },
   chevron: {
     fontSize: 10,
-    color: colors.textMuted,
   },
   dropdown: {
     borderTopWidth: 1,
-    borderTopColor: colors.border,
     maxHeight: 200,
   },
   list: {
@@ -95,11 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 8,
   },
-  optionSelected: {
-    backgroundColor: colors.background,
-  },
   optionText: {
     fontSize: 14,
-    color: colors.text,
   },
 });
