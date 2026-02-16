@@ -48,9 +48,7 @@ export function PotionsScreen() {
 
   const listFooter = useMemo(
     () =>
-      status === "loading" && isLoadingMore ? (
-        <Loader text="Loading more potions..." />
-      ) : null,
+      status === "loading" && isLoadingMore ? <Loader text="Loading more potions..." /> : null,
     [status, isLoadingMore],
   );
 

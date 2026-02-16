@@ -49,10 +49,7 @@ export function SpellsScreen() {
   }
 
   const listFooter = useMemo(
-    () =>
-      status === "loading" && isLoadingMore ? (
-        <Loader text="Loading more spells..." />
-      ) : null,
+    () => (status === "loading" && isLoadingMore ? <Loader text="Loading more spells..." /> : null),
     [status, isLoadingMore],
   );
 
