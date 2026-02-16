@@ -1,14 +1,18 @@
 import { Pressable, Text, StyleSheet } from "react-native";
-import { createDrawerNavigator, type DrawerContentComponentProps } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  type DrawerContentComponentProps,
+  type DrawerNavigationProp,
+} from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DefaultTheme, NavigationContainer, useNavigation } from "@react-navigation/native";
 import { useTheme } from "@/theme/ThemeContext";
 import { MyTabs } from "./Tabs";
 import { DetailScreen } from "@screens/Detail/DetailScreen";
 import { DrawerContent } from "@components/DrawerContent";
-import { RootStackParamList } from "./types";
+import { RootDrawerParamList, RootStackParamList } from "./types";
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<RootDrawerParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function DrawerMenuButton({ onPress }: { onPress: () => void }) {
@@ -37,7 +41,9 @@ function HeaderDrawerButton() {
   const navigation = useNavigation();
   return (
     <DrawerMenuButton
-      onPress={() => (navigation.getParent() as { openDrawer: () => void })?.openDrawer?.()}
+      onPress={() =>
+        navigation.getParent<DrawerNavigationProp<RootDrawerParamList>>()?.openDrawer()
+      }
     />
   );
 }

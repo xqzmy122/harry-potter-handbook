@@ -7,12 +7,12 @@ export const getAllPotions = async (): Promise<Potion[]> => {
   return res.data.data;
 };
 
-export const getPotionsByPage = async (page: number, search?: string): Promise<Potion[]> => {
+export const getPotionsByPage = async (page: number, difficulty?: string): Promise<Potion[]> => {
   const res = await api.get<ApiResponse<Potion[]>>(`/v1/potions`, {
     params: {
       "page[number]": page,
       "page[size]": 10,
-      ...(search && { "filter[name_cont]": search }),
+      ...(difficulty && { "filter[difficulty_eq]": difficulty }),
     },
   });
   return res.data.data;

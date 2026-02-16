@@ -19,7 +19,7 @@ function CardComponent({ data, onPress }: CardProps) {
         />
       ) : (
         <Image
-          source={require("../assets/unknown-spell.png")}
+          source={require("@assets/unknown-spell.png")}
           style={[styles.image, { backgroundColor: theme.background }]}
         />
       )}
