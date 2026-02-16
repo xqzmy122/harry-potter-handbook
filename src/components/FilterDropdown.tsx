@@ -14,7 +14,7 @@ function FilterDropdownComponent({
   const { theme } = useTheme();
   const [expanded, setExpanded] = useState<boolean>(false);
 
-  const restOptions = options.length > 1 ? options.slice(1) : [];
+  const restOptions = options;
 
   const handleSelect = (item: string) => {
     setExpanded(false);

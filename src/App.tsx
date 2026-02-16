@@ -10,16 +10,18 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ErrorBoundary } from "react-error-boundary";
 import { ThemeProvider, useTheme } from "@/theme/ThemeContext";
-import { Navigation } from "./navigation/Navigation";
+import { Navigation } from "@navigation/Navigation";
 import { ErrorFallback } from "@components/ErrorFallback";
 import { OfflineGate } from "@components/OfflineGate";
 import BootSplash from "react-native-bootsplash";
 import { useEffect } from "react";
 
 function AppContent() {
-  const { isDark } = useTheme();
+  const { isDark, isReady } = useTheme();
 
   useEffect(() => {
+    if (!isReady) return;
+
     const init = async () => {
       // …do multiple sync or async tasks
     };
@@ -27,7 +29,12 @@ function AppContent() {
     init().finally(async () => {
       await BootSplash.hide({ fade: true });
     });
-  }, []);
+  }, [isReady]);
+
+  if (!isReady) {
+    // Keep BootSplash visible until the theme is hydrated from AsyncStorage.
+    return null;
+  }
 
   return (
     <>

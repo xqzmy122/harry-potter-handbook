@@ -10,14 +10,31 @@ export const useFetch = <T>(request: () => Promise<T[]>) => {
   const requestRef = useRef(request);
   requestRef.current = request;
 
+  const requestIdRef = useRef(0);
+
   const execute = useCallback(async (replace = false) => {
+    const requestId = ++requestIdRef.current;
+
+    setStatus("loading");
+    setError(null);
+
     try {
-      setStatus("loading");
       const result = await requestRef.current();
+
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
       setData(prev => (replace ? result || [] : [...(prev || []), ...(result || [])]));
       setStatus("success");
     } catch (err) {
-      err instanceof Error && setError(err.message);
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
+      if (err instanceof Error) {
+        setError(err.message);
+      }
       setStatus("error");
     }
   }, []);

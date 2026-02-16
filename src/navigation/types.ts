@@ -5,4 +5,8 @@ export type RootStackParamList = {
   Detail: { type: "spell" | "potion"; id: string };
 };
 
+export type RootDrawerParamList = {
+  Main: undefined;
+};
+
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
